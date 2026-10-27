@@ -1,0 +1,48 @@
+{
+  "name": "deltaprobe",
+  "version": "0.1.0",
+  "description": "MCP server that lets AI assistants probe pull requests: fetch diffs, summarize changes, flag risky patches and post review comments.",
+  "type": "module",
+  "bin": {
+    "deltaprobe": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "code-review",
+    "pull-requests",
+    "github",
+    "ai",
+    "llm"
+  ],
+  "author": "Deepthi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deepthi-04/deltaprobe.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "@octokit/rest": "^22.0.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
