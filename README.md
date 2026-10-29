@@ -11,8 +11,8 @@
 | Tool | Status | Description |
 |---|---|---|
 | `list_open_prs` | ✅ | List open PRs in a repo, most recently updated first |
-| `get_pr_diff` | 🚧 | Fetch changed files and diff hunks, trimmed to fit the model's context |
-| `summarize_pr` | 🚧 | Stats on files changed, lines added/removed, areas touched |
+| `summarize_pr` | ✅ | Overview of a PR: description, size, file types, most-touched areas, review status and CI results |
+| `get_pr_diff` | ✅ | Fetch changed files and diff hunks, trimmed to whole hunks within a character budget |
 | `check_pr_risk` | 🚧 | Flag risky patterns: no tests, env/lock file changes, huge diffs, secret-like strings |
 | `post_review_comment` | 🚧 | Post the review back to GitHub |
 
@@ -76,6 +76,8 @@ npm run dev       # run the server from source
 src/
 ├── index.ts          # MCP server entry: registers tools, connects over stdio
 ├── github.ts         # GitHub API client
+├── diff.ts           # hunk splitting and budget fitting
+├── files.ts          # file type and area classification
 └── tools/            # one file per tool
 test/                 # vitest unit tests
 ```
@@ -83,8 +85,8 @@ test/                 # vitest unit tests
 ## Roadmap
 
 - [x] `list_open_prs`
-- [ ] `get_pr_diff` with smart truncation
-- [ ] `summarize_pr`
+- [x] `get_pr_diff` with smart truncation
+- [x] `summarize_pr`
 - [ ] `check_pr_risk` rules
 - [ ] `post_review_comment`
 - [ ] Publish to npm and the MCP Registry
