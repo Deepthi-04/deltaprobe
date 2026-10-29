@@ -4,6 +4,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { createGitHubClient } from "./github.js";
 import { getPrDiff, getPrDiffInput } from "./tools/getPrDiff.js";
 import { listOpenPrs, listOpenPrsInput } from "./tools/listOpenPrs.js";
+import { summarizePr, summarizePrInput } from "./tools/summarizePr.js";
 
 const server = new McpServer({ name: "deltaprobe", version: "0.1.0" });
 const octokit = createGitHubClient();
@@ -26,6 +27,20 @@ server.registerTool(
     annotations: readOnly,
   },
   async (args) => jsonResult(await listOpenPrs(octokit, args)),
+);
+
+server.registerTool(
+  "summarize_pr",
+  {
+    title: "Summarize pull request",
+    description:
+      "Get an overview of a pull request without its diff: title, description, author, branches, labels, " +
+      "size, file types (source/test/docs/config/generated), most-touched areas, review status and CI check results. " +
+      "Call this first when reviewing a PR, then use get_pr_diff to read the code.",
+    inputSchema: summarizePrInput,
+    annotations: readOnly,
+  },
+  async (args) => jsonResult(await summarizePr(octokit, args)),
 );
 
 server.registerTool(
