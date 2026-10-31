@@ -2,6 +2,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { createGitHubClient } from "./github.js";
+import { checkPrRisk, checkPrRiskInput } from "./tools/checkPrRisk.js";
 import { getPrDiff, getPrDiffInput } from "./tools/getPrDiff.js";
 import { listOpenPrs, listOpenPrsInput } from "./tools/listOpenPrs.js";
 import { summarizePr, summarizePrInput } from "./tools/summarizePr.js";
@@ -56,6 +57,21 @@ server.registerTool(
     annotations: readOnly,
   },
   async (args) => jsonResult(await getPrDiff(octokit, args)),
+);
+
+server.registerTool(
+  "check_pr_risk",
+  {
+    title: "Check pull request risk",
+    description:
+      "Run rule-based risk checks on a pull request: possible secrets in added lines (masked), sensitive files, " +
+      "large diffs, source changes without tests, CI workflow, migration and dependency changes, and leftover debug code. " +
+      "Returns an overall level (none/low/medium/high) and findings with file and line where possible. " +
+      "These are heuristics: confirm each finding by reading the code with get_pr_diff before reporting it.",
+    inputSchema: checkPrRiskInput,
+    annotations: readOnly,
+  },
+  async (args) => jsonResult(await checkPrRisk(octokit, args)),
 );
 
 // stdout carries MCP protocol messages, so logs must go to stderr.

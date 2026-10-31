@@ -13,7 +13,7 @@
 | `list_open_prs` | ✅ | List open PRs in a repo, most recently updated first |
 | `summarize_pr` | ✅ | Overview of a PR: description, size, file types, most-touched areas, review status and CI results |
 | `get_pr_diff` | ✅ | Fetch changed files and diff hunks, trimmed to whole hunks within a character budget |
-| `check_pr_risk` | 🚧 | Flag risky patterns: no tests, env/lock file changes, huge diffs, secret-like strings |
+| `check_pr_risk` | ✅ | Rule-based risk checks: secrets in added lines (masked), sensitive files, large diffs, missing tests, CI/migration/dependency changes, debug code |
 | `post_review_comment` | 🚧 | Post the review back to GitHub |
 
 ## How it works
@@ -78,6 +78,7 @@ src/
 ├── github.ts         # GitHub API client
 ├── diff.ts           # hunk splitting and budget fitting
 ├── files.ts          # file type and area classification
+├── risk/rules.ts     # risk rules: each takes the PR's files and returns findings
 └── tools/            # one file per tool
 test/                 # vitest unit tests
 ```
@@ -87,7 +88,7 @@ test/                 # vitest unit tests
 - [x] `list_open_prs`
 - [x] `get_pr_diff` with smart truncation
 - [x] `summarize_pr`
-- [ ] `check_pr_risk` rules
+- [x] `check_pr_risk` rules
 - [ ] `post_review_comment`
 - [ ] Publish to npm and the MCP Registry
 - [ ] GitHub Action that reviews PRs automatically

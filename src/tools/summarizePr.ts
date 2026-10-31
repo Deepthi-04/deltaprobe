@@ -85,7 +85,7 @@ export async function summarizePr(
 }
 
 function countFileTypes(paths: string[]): Record<FileType, number> {
-  const counts: Record<FileType, number> = { source: 0, test: 0, docs: 0, config: 0, generated: 0 };
+  const counts: Record<FileType, number> = { source: 0, test: 0, docs: 0, config: 0, asset: 0, generated: 0 };
   for (const path of paths) counts[fileType(path)]++;
   return counts;
 }

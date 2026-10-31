@@ -15,6 +15,8 @@ describe("fileType", () => {
     ["tsconfig.json", "config"],
     ["Dockerfile", "config"],
     [".eslintrc.cjs", "config"],
+    ["assets/logo.png", "asset"],
+    ["public/fonts/Inter.woff2", "asset"],
     ["package-lock.json", "generated"],
     ["dist/index.js", "generated"],
   ])("%s is %s", (path, type) => expect(fileType(path)).toBe(type));

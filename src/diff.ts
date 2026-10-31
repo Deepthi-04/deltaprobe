@@ -20,6 +20,32 @@ export function splitHunks(patch: string): string[] {
   return patch.split(/\n(?=@@ )/);
 }
 
+export interface AddedLine {
+  line: number;
+  text: string;
+}
+
+// Returns each added line with its line number in the new version of the file.
+export function addedLines(patch: string): AddedLine[] {
+  const added: AddedLine[] = [];
+  let line = 0;
+
+  for (const raw of patch.split("\n")) {
+    const header = raw.match(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@/);
+    if (header) {
+      line = Number(header[1]);
+    } else if (raw.startsWith("+")) {
+      added.push({ line, text: raw.slice(1) });
+      line++;
+    } else if (raw.startsWith(" ")) {
+      line++;
+    }
+    // "-" lines exist only in the old file, and "\ No newline at end of file" is metadata.
+  }
+
+  return added;
+}
+
 export interface FittedPatch {
   patch: string;
   shownHunks: number;
