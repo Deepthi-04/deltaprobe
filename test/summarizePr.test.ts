@@ -92,7 +92,7 @@ describe("summarizePr", () => {
 
     const summary = await summarizePr(octokit, args);
 
-    expect(summary.fileTypes).toEqual({ source: 1, test: 1, docs: 1, config: 0, generated: 0 });
+    expect(summary.fileTypes).toEqual({ source: 1, test: 1, docs: 1, config: 0, asset: 0, generated: 0 });
     expect(summary.areas).toEqual([
       { area: "packages/server", files: 2 },
       { area: "(root)", files: 1 },

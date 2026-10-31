@@ -1,6 +1,6 @@
 import { isGeneratedFile } from "./diff.js";
 
-export type FileType = "source" | "test" | "docs" | "config" | "generated";
+export type FileType = "source" | "test" | "docs" | "config" | "asset" | "generated";
 
 const TEST_PATTERNS = [
   /(^|\/)(test|tests|__tests__|spec)\//,
@@ -15,6 +15,7 @@ const CONFIG_PATTERNS = [
   /(^|\/)(Dockerfile|Makefile)$/,
   /(^|\/)\.[^/]+rc(\.\w+)?$/,
 ];
+const ASSET_PATTERN = /\.(png|jpe?g|gif|webp|ico|svg|bmp|woff2?|ttf|otf|eot|mp3|mp4|wav|webm|pdf)$/i;
 
 // Checked in order: a lock file is "generated" even though it is also JSON.
 export function fileType(path: string): FileType {
@@ -22,6 +23,7 @@ export function fileType(path: string): FileType {
   if (TEST_PATTERNS.some((p) => p.test(path))) return "test";
   if (DOCS_PATTERNS.some((p) => p.test(path))) return "docs";
   if (CONFIG_PATTERNS.some((p) => p.test(path))) return "config";
+  if (ASSET_PATTERN.test(path)) return "asset";
   return "source";
 }
 
