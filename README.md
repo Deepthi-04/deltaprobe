@@ -1,5 +1,8 @@
 # deltaprobe 🔍
 
+[![CI](https://github.com/Deepthi-04/deltaprobe/actions/workflows/ci.yml/badge.svg)](https://github.com/Deepthi-04/deltaprobe/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 > Give your AI assistant x-ray vision into pull requests.
 
 **deltaprobe** is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that lets AI assistants like Claude, Cursor and VS Code Copilot probe GitHub pull requests: list them, read their diffs, summarize changes, flag risky patches and post review comments.
