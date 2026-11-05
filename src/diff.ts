@@ -67,3 +67,33 @@ export function fitHunks(patch: string, budget: number): FittedPatch {
 
   return { patch: kept.join("\n"), shownHunks: kept.length, totalHunks: hunks.length };
 }
+
+export interface CommentableLines {
+  right: Set<number>; // lines in the new file: added or unchanged context
+  left: Set<number>; // lines in the old file: removed or unchanged context
+}
+
+// GitHub only accepts inline review comments on lines that appear in the diff.
+export function commentableLines(patch: string): CommentableLines {
+  const right = new Set<number>();
+  const left = new Set<number>();
+  let oldLine = 0;
+  let newLine = 0;
+
+  for (const raw of patch.split("\n")) {
+    const header = raw.match(/^@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@/);
+    if (header) {
+      oldLine = Number(header[1]);
+      newLine = Number(header[2]);
+    } else if (raw.startsWith("+")) {
+      right.add(newLine++);
+    } else if (raw.startsWith("-")) {
+      left.add(oldLine++);
+    } else if (raw.startsWith(" ")) {
+      right.add(newLine++);
+      left.add(oldLine++);
+    }
+  }
+
+  return { right, left };
+}

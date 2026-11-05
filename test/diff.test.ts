@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fitHunks, isGeneratedFile, splitHunks } from "../src/diff.js";
+import { commentableLines, fitHunks, isGeneratedFile, splitHunks } from "../src/diff.js";
 
 const hunkA = "@@ -1,2 +1,2 @@\n-old\n+new";
 const hunkB = "@@ -10,1 +10,2 @@\n context\n+added";
@@ -38,5 +38,16 @@ describe("fitHunks", () => {
 
   it("returns nothing when even the first hunk does not fit", () => {
     expect(fitHunks(patch, 3)).toEqual({ patch: "", shownHunks: 0, totalHunks: 2 });
+  });
+});
+
+describe("commentableLines", () => {
+  it("maps added, removed and context lines to the right side of the diff", () => {
+    const patch = ["@@ -10,3 +10,4 @@", " a", "-b", "+B", "+C", " d", "@@ -50,1 +51,1 @@", "-x", "+y"].join("\n");
+
+    const { right, left } = commentableLines(patch);
+
+    expect([...right]).toEqual([10, 11, 12, 13, 51]);
+    expect([...left]).toEqual([10, 11, 12, 50]);
   });
 });

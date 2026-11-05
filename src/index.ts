@@ -5,6 +5,7 @@ import { createGitHubClient } from "./github.js";
 import { checkPrRisk, checkPrRiskInput } from "./tools/checkPrRisk.js";
 import { getPrDiff, getPrDiffInput } from "./tools/getPrDiff.js";
 import { listOpenPrs, listOpenPrsInput } from "./tools/listOpenPrs.js";
+import { postReviewComment, postReviewCommentInput } from "./tools/postReviewComment.js";
 import { summarizePr, summarizePrInput } from "./tools/summarizePr.js";
 
 const server = new McpServer({ name: "deltaprobe", version: "0.1.0" });
@@ -72,6 +73,23 @@ server.registerTool(
     annotations: readOnly,
   },
   async (args) => jsonResult(await checkPrRisk(octokit, args)),
+);
+
+server.registerTool(
+  "post_review_comment",
+  {
+    title: "Post pull request review",
+    description:
+      "Post a review on a pull request: an overall summary plus optional inline comments on specific lines. " +
+      "Inline comments must target lines in the PR's diff (RIGHT = new version, LEFT = removed lines); " +
+      "they're all checked first, and nothing is posted if any is invalid. " +
+      "Defaults to a neutral COMMENT review. Use dryRun to preview. Requires a GITHUB_TOKEN that can write to pull requests. " +
+      "Only post when the user has asked you to.",
+    inputSchema: postReviewCommentInput,
+    // Writes to GitHub, and each call adds a new review.
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
+  },
+  async (args) => jsonResult(await postReviewComment(octokit, args)),
 );
 
 // stdout carries MCP protocol messages, so logs must go to stderr.
