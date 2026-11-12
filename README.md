@@ -1,13 +1,15 @@
 # deltaprobe 🔍
 
 [![CI](https://github.com/Deepthi-04/deltaprobe/actions/workflows/ci.yml/badge.svg)](https://github.com/Deepthi-04/deltaprobe/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/deltaprobe.svg)](https://www.npmjs.com/package/deltaprobe)
+[![MCP Registry](https://img.shields.io/badge/MCP_Registry-io.github.Deepthi--04%2Fdeltaprobe-blue)](https://registry.modelcontextprotocol.io/v0.1/servers?search=deltaprobe)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 > Give your AI assistant x-ray vision into pull requests.
 
 **deltaprobe** is a [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that lets AI assistants like Claude, Cursor and VS Code Copilot probe GitHub pull requests: list them, read their diffs, summarize changes, flag risky patches and post review comments.
 
-> ⚠️ Early development.
+Available on [npm](https://www.npmjs.com/package/deltaprobe) and the [official MCP Registry](https://registry.modelcontextprotocol.io/v0.1/servers?search=deltaprobe) as `io.github.Deepthi-04/deltaprobe`.
 
 ## Tools
 
@@ -41,6 +43,10 @@ The assistant decides which deltaprobe tools to call, deltaprobe fetches and tri
 ### Use with Claude Code
 
 ```bash
+# public repos, read-only (no token)
+claude mcp add deltaprobe -- npx -y deltaprobe
+
+# with a token (higher rate limit, private repos, posting reviews)
 claude mcp add deltaprobe -e GITHUB_TOKEN=<your-token> -- npx -y deltaprobe
 ```
 
@@ -94,7 +100,8 @@ test/                 # vitest unit tests
 - [x] `check_pr_risk` rules
 - [x] `post_review_comment`
 - [x] CI on GitHub Actions
-- [ ] Publish to npm and the MCP Registry
+- [x] Publish to npm and the MCP Registry
+- [ ] List on Smithery
 - [ ] GitHub Action that reviews PRs automatically
 
 ## License
