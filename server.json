@@ -1,0 +1,26 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.Deepthi-04/deltaprobe",
+  "description": "Review GitHub pull requests: diffs, summaries, risk checks and inline review comments.",
+  "repository": {
+    "url": "https://github.com/Deepthi-04/deltaprobe",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "deltaprobe",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "GITHUB_TOKEN",
+          "description": "GitHub token. Optional for reading public repos; needs 'Pull requests: Read and write' to post reviews.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

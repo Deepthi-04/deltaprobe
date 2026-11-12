@@ -1,6 +1,7 @@
 {
   "name": "deltaprobe",
   "version": "0.1.0",
+  "mcpName": "io.github.Deepthi-04/deltaprobe",
   "description": "MCP server that lets AI assistants probe pull requests: fetch diffs, summarize changes, flag risky patches and post review comments.",
   "type": "module",
   "bin": {
@@ -14,7 +15,8 @@
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
   },
   "keywords": [
     "mcp",
@@ -30,6 +32,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Deepthi-04/deltaprobe.git"
+  },
+  "homepage": "https://github.com/Deepthi-04/deltaprobe#readme",
+  "bugs": {
+    "url": "https://github.com/Deepthi-04/deltaprobe/issues"
   },
   "engines": {
     "node": ">=20"
